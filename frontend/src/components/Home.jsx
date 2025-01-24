@@ -153,7 +153,7 @@ function Home() {
               Explore Courses
             </Link>
             <Link
-              to={"https://www.youtube.com/learncodingofficial"}
+              to={""}
               className="bg-white text-black  p-2 md:py-3 md:px-6 rounded font-semibold hover:bg-green-500 duration-300 hover:text-white"
             >
               Watch Course Videos
