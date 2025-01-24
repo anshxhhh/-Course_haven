@@ -1,1 +1,1 @@
-export const BACKEND_URL="https://course-haven-yur6.onrender.com";
+export const BACKEND_URL="https://course-haven-yur6.onrender.com/api/v1";
