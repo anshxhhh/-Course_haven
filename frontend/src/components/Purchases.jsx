@@ -138,7 +138,7 @@ function Purchases() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-white shadow-md rounded-lg p-6">
             <h3 className="text-lg font-bold text-gray-700">Total Spent</h3>
-            <p className="text-green-600 text-2xl font-semibold">${totalSpent.toFixed(2)}</p>
+            <p className="text-green-600 text-2xl font-semibold">₹{totalSpent.toFixed(2)}</p>
           </div>
           <div className="bg-white shadow-md rounded-lg p-6">
             <h3 className="text-lg font-bold text-gray-700">Unique Courses</h3>
@@ -186,7 +186,7 @@ function Purchases() {
                     : purchase.description}
                 </p>
                 <div className="mt-4 text-green-700 font-semibold text-sm">
-                  ${purchase.price} only
+                  ₹{purchase.price} only
                 </div>
               </div>
             ))}
