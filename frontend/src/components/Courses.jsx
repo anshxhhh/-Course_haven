@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios"; 
+import axios from "axios";
 import { FaCircleUser } from "react-icons/fa6";
 import { RiHome2Fill } from "react-icons/ri";
 import { FaDiscourse } from "react-icons/fa";
@@ -11,21 +11,19 @@ import logo from "../../public/logo.webp";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../utils/utils";
+
 function Courses() {
   const [courses, setCourses] = useState([]);
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate(); 
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const user = localStorage.getItem("user");
-    if (user) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
+    setIsLoggedIn(!!user);
   }, []);
 
   useEffect(() => {
@@ -35,7 +33,7 @@ function Courses() {
           withCredentials: true,
         });
         setCourses(response.data.courses);
-        setFilteredCourses(response.data.courses); // Initialize filteredCourses
+        setFilteredCourses(response.data.courses);
         setLoading(false);
       } catch (error) {
         console.log("error in fetchCourses ", error);
@@ -47,8 +45,6 @@ function Courses() {
   const handleSearch = (event) => {
     const query = event.target.value.toLowerCase();
     setSearchQuery(query);
-
-    // Filter courses based on the query
     const filtered = courses.filter((course) =>
       course.title.toLowerCase().includes(query) ||
       course.description.toLowerCase().includes(query)
@@ -67,52 +63,49 @@ function Courses() {
       navigate("/login");
     } catch (error) {
       console.log("Error in logging out ", error);
-      toast.error(error.response.data.errors || "Error in logging out");
+      toast.error(error.response?.data?.errors || "Error in logging out");
     }
   };
- 
+
   return (
     <div className="flex">
-      <aside className="w-64 bg-gradient-to-tl from-purple-600 to-blue-700 h-screen p-5 fixed rounded-r-xl shadow-lg">
+      {/* Sidebar */}
+      <aside className={`bg-gradient-to-tl from-purple-600 to-blue-700 p-5 fixed top-0 left-0 z-50 h-full transition-transform duration-300 ease-in-out
+        ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
+        md:translate-x-0 md:static md:h-screen md:w-64 rounded-r-xl shadow-lg`}>
         <div className="flex items-center mb-10">
-          <img src={logo} alt="Profile" className="rounded-full h-12 w-12" />
+          <img src={logo} alt="Logo" className="rounded-full h-12 w-12" />
         </div>
         <nav>
           <ul>
             <li className="mb-4">
               <a href="/" className="flex items-center text-white hover:text-yellow-300 transition duration-300 transform hover:scale-105">
-                <RiHome2Fill className="mr-2 text-2xl" />
-                Home
+                <RiHome2Fill className="mr-2 text-2xl" /> Home
               </a>
             </li>
             <li className="mb-4">
               <a href="#" className="flex items-center text-white hover:text-yellow-300 transition duration-300 transform hover:scale-105">
-                <FaDiscourse className="mr-2 text-2xl" />
-                Courses
+                <FaDiscourse className="mr-2 text-2xl" /> Courses
               </a>
             </li>
             <li className="mb-4">
               <a href="/purchases" className="flex items-center text-white hover:text-yellow-300 transition duration-300 transform hover:scale-105">
-                <FaDownload className="mr-2 text-2xl" />
-                Purchases
+                <FaDownload className="mr-2 text-2xl" /> Purchases
               </a>
             </li>
             <li className="mb-4">
               <a href="#" className="flex items-center text-white hover:text-yellow-300 transition duration-300 transform hover:scale-105">
-                <IoMdSettings className="mr-2 text-2xl" />
-                Settings
+                <IoMdSettings className="mr-2 text-2xl" /> Settings
               </a>
             </li>
             <li>
               {isLoggedIn ? (
-                <a href="#" className="flex items-center text-white hover:text-yellow-300 transition duration-300 transform hover:scale-105" onClick={handleLogout}>
-                  <IoLogOut className="mr-2 text-2xl" />
-                  Logout
+                <a href="#" onClick={handleLogout} className="flex items-center text-white hover:text-yellow-300 transition duration-300 transform hover:scale-105">
+                  <IoLogOut className="mr-2 text-2xl" /> Logout
                 </a>
               ) : (
                 <Link to="/login" className="flex items-center text-white hover:text-yellow-300 transition duration-300 transform hover:scale-105">
-                  <IoLogIn className="mr-2 text-2xl" />
-                  Login
+                  <IoLogIn className="mr-2 text-2xl" /> Login
                 </Link>
               )}
             </li>
@@ -120,9 +113,26 @@ function Courses() {
         </nav>
       </aside>
 
-      <main className="ml-[20%] w-[80%] bg-white p-10">
-        <header className="flex justify-between items-center mb-10">
-          <h1 className="text-3xl font-extrabold text-gray-800">Courses</h1>
+      {/* Backdrop */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-40 z-40 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      {/* Main Content */}
+      <main className="flex-1 md:ml-64 w-full bg-white p-4 md:p-10">
+        <header className="flex justify-between items-center mb-6">
+          <div className="flex items-center space-x-4">
+            <button 
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)} 
+              className="md:hidden text-3xl text-blue-700"
+            >
+              ☰
+            </button>
+            <h1 className="text-3xl font-extrabold text-gray-800">Courses</h1>
+          </div>
           <div className="flex items-center space-x-3">
             <div className="flex items-center">
               <input
@@ -156,12 +166,11 @@ function Courses() {
                   </p>
                   <div className="flex justify-between items-center mb-4">
                     <span className="font-bold text-xl text-blue-500">
-                      ₹{course.price}{" "}
-                      <span className="text-gray-400 line-through">₹349</span>
+                      ₹{course.price} <span className="text-gray-400 line-through">₹349</span>
                     </span>
                     <span className="text-green-600">20% off</span>
                   </div>
-                  <Link to={`/buy/${course._id}`} className="bg-orange-500 w-full text-white px-4 py-2 rounded-lg text-center hover:bg-orange-600 transition duration-300">
+                  <Link to={`/buy/${course._id}`} className="bg-orange-500 w-full text-white px-4 py-2 rounded-lg text-center hover:bg-orange-600 transition duration-300 block text-center">
                     Buy Now
                   </Link>
                 </div>
