@@ -163,7 +163,7 @@ function Buy() {
                 <h1 className="text-xl font-semibold text-gray-700 underline mb-4">Order Details</h1>
                 <div className="flex items-center text-center space-x-2 mb-4">
                   <h2 className="text-gray-600 text-sm">Total Price</h2>
-                  <p className="text-red-500 font-bold">${course.price}</p>
+                  <p className="text-red-500 font-bold">₹{course.price}</p>
                 </div>
                 <div className="flex items-center text-center space-x-2">
                   <h1 className="text-gray-600 text-sm">Course Name</h1>
