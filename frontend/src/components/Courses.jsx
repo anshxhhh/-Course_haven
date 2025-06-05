@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios"; 
+import axios from "axios";
 import { FaCircleUser } from "react-icons/fa6";
 import { RiHome2Fill } from "react-icons/ri";
 import { FaDiscourse } from "react-icons/fa";
@@ -17,7 +17,7 @@ function Courses() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const user = localStorage.getItem("user");
@@ -49,9 +49,10 @@ function Courses() {
     setSearchQuery(query);
 
     // Filter courses based on the query
-    const filtered = courses.filter((course) =>
-      course.title.toLowerCase().includes(query) ||
-      course.description.toLowerCase().includes(query)
+    const filtered = courses.filter(
+      (course) =>
+        course.title.toLowerCase().includes(query) ||
+        course.description.toLowerCase().includes(query)
     );
     setFilteredCourses(filtered);
   };
@@ -70,7 +71,7 @@ function Courses() {
       toast.error(error.response.data.errors || "Error in logging out");
     }
   };
- 
+
   return (
     <div className="flex">
       <aside className="w-64 bg-gradient-to-tl from-purple-600 to-blue-700 h-screen p-5 fixed rounded-r-xl shadow-lg">
@@ -80,37 +81,56 @@ function Courses() {
         <nav>
           <ul>
             <li className="mb-4">
-              <a href="/" className="flex items-center text-white hover:text-yellow-300 transition duration-300 transform hover:scale-105">
+              <a
+                href="/"
+                className="flex items-center text-white hover:text-yellow-300 transition duration-300 transform hover:scale-105"
+              >
                 <RiHome2Fill className="mr-2 text-2xl" />
                 Home
               </a>
             </li>
             <li className="mb-4">
-              <a href="#" className="flex items-center text-white hover:text-yellow-300 transition duration-300 transform hover:scale-105">
+              <a
+                href="#"
+                className="flex items-center text-white hover:text-yellow-300 transition duration-300 transform hover:scale-105"
+              >
                 <FaDiscourse className="mr-2 text-2xl" />
                 Courses
               </a>
             </li>
             <li className="mb-4">
-              <a href="/purchases" className="flex items-center text-white hover:text-yellow-300 transition duration-300 transform hover:scale-105">
+              <Link
+                to="/purchases"
+                className="flex items-center text-white hover:text-yellow-300 transition duration-300 transform hover:scale-105"
+              >
                 <FaDownload className="mr-2 text-2xl" />
                 Purchases
-              </a>
+              </Link>
             </li>
             <li className="mb-4">
-              <a href="#" className="flex items-center text-white hover:text-yellow-300 transition duration-300 transform hover:scale-105">
+              <a
+                href="#"
+                className="flex items-center text-white hover:text-yellow-300 transition duration-300 transform hover:scale-105"
+              >
                 <IoMdSettings className="mr-2 text-2xl" />
                 Settings
               </a>
             </li>
             <li>
               {isLoggedIn ? (
-                <a href="#" className="flex items-center text-white hover:text-yellow-300 transition duration-300 transform hover:scale-105" onClick={handleLogout}>
+                <a
+                  href="#"
+                  className="flex items-center text-white hover:text-yellow-300 transition duration-300 transform hover:scale-105"
+                  onClick={handleLogout}
+                >
                   <IoLogOut className="mr-2 text-2xl" />
                   Logout
                 </a>
               ) : (
-                <Link to="/login" className="flex items-center text-white hover:text-yellow-300 transition duration-300 transform hover:scale-105">
+                <Link
+                  to="/login"
+                  className="flex items-center text-white hover:text-yellow-300 transition duration-300 transform hover:scale-105"
+                >
                   <IoLogIn className="mr-2 text-2xl" />
                   Login
                 </Link>
@@ -148,11 +168,22 @@ function Courses() {
           ) : (
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
               {filteredCourses.map((course) => (
-                <div key={course._id} className="border border-gray-200 rounded-lg p-6 shadow-md transition duration-300 transform hover:scale-105 hover:shadow-xl">
-                  <img src={course.image.url} alt={course.title} className="rounded-lg mb-4 object-cover h-40 w-full" />
-                  <h2 className="font-bold text-lg mb-2 text-gray-800">{course.title}</h2>
+                <div
+                  key={course._id}
+                  className="border border-gray-200 rounded-lg p-6 shadow-md transition duration-300 transform hover:scale-105 hover:shadow-xl"
+                >
+                  <img
+                    src={course.image.url}
+                    alt={course.title}
+                    className="rounded-lg mb-4 object-cover h-40 w-full"
+                  />
+                  <h2 className="font-bold text-lg mb-2 text-gray-800">
+                    {course.title}
+                  </h2>
                   <p className="text-gray-600 mb-4">
-                    {course.description.length > 100 ? `${course.description.slice(0, 100)}...` : course.description}
+                    {course.description.length > 100
+                      ? `${course.description.slice(0, 100)}...`
+                      : course.description}
                   </p>
                   <div className="flex justify-between items-center mb-4">
                     <span className="font-bold text-xl text-blue-500">
@@ -161,7 +192,10 @@ function Courses() {
                     </span>
                     <span className="text-green-600">20% off</span>
                   </div>
-                  <Link to={`/buy/${course._id}`} className="bg-orange-500 w-full text-white px-4 py-2 rounded-lg text-center hover:bg-orange-600 transition duration-300">
+                  <Link
+                    to={`/buy/${course._id}`}
+                    className="bg-orange-500 w-full text-white px-4 py-2 rounded-lg text-center hover:bg-orange-600 transition duration-300"
+                  >
                     Buy Now
                   </Link>
                 </div>
