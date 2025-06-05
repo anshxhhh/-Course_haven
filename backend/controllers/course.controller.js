@@ -156,7 +156,7 @@ export const getCourses = async (req, res) => {
       const amount = course.price;
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount,
-      currency: "usd",
+      currency: "inr",
       payment_method_types: ["card"],
     });
   
